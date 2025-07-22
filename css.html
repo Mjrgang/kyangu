@@ -1,0 +1,3178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keja Yangu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Rock+Salt&family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body { 
+      font-family: Arial, sans-serif; 
+      margin: 0; 
+      padding: 0; 
+      background: #f7f7f7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .header {
+      background: orange;
+      padding: 10px 20px;
+      color: white;
+      flex-shrink: 0;
+    }
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .logo-title {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .logo-title-container {
+      display: flex;
+      flex-direction: column;
+    }
+    .logo-title img {
+      height: 120px;
+      margin-right: 15px;
+    }
+    .logo-title h1 {
+      margin: 0;
+      font-size: 2em;
+      font-family: 'Permanent Marker', cursive;
+      white-space: nowrap;
+    }
+    .slogan {
+      color: green;
+      font-weight: bold;
+      font-size: 1em;
+      margin-top: 5px;
+      text-align: left;
+      width: 100%;
+    }
+    .auth-buttons {
+      display: flex;
+      gap: 15px;
+      margin-left: auto;
+      padding-right: 20px;
+      align-items: center;
+    }
+    .auth-btn {
+      padding: 8px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      background: white;
+      color: #2c3e50;
+      border: 2px solid #ddd;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .user-photo {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid white;
+      position: relative;
+    }
+    .online-dot {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 10px;
+      height: 10px;
+      background-color: #4CAF50;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+    .user-name {
+      color: white;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .nav {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      width: 100%;
+      justify-content: center;
+    }
+    .nav a {
+      color: white;
+      text-decoration: none;
+      padding: 5px 10px;
+      background: green;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    .county-grid, .town-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 10px;
+      padding: 15px;
+      flex-grow: 1;
+    }
+    .county-box, .town-box {
+      background: #fff;
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      font-weight: bold;
+      font-size: 0.9em;
+    }
+    .county-box:hover, .town-box:hover {
+      transform: scale(1.05);
+      background: #e9e9e9;
+    }
+    .feed {
+      padding: 10px;
+      display: none;
+      flex-grow: 1;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .post {
+      background: white;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .swiper-container {
+      width: 100%;
+      height: 350px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .swiper-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .swiper-slide video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .lister-info {
+      display: flex;
+      align-items: center;
+      margin: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    .lister-profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+      object-fit: cover;
+      border: 2px solid #f1f1f1;
+      position: relative;
+    }
+    .lister-name {
+      font-size: 14px;
+      color: #555;
+      font-weight: 600;
+    }
+    .post-details {
+      padding: 0 15px 15px;
+    }
+    .upload-form {
+      margin: 10px auto;
+      max-width: 600px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      display: none;
+      flex-grow: 1;
+    }
+    .upload-form h2 {
+      text-align: center;
+      color: green;
+      margin-top: 0;
+    }
+    .upload-form input, 
+    .upload-form textarea, 
+    .upload-form select {
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .upload-form button {
+      background: green;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+    footer {
+      text-align: center;
+      padding: 10px;
+      background: #222;
+      color: white;
+      flex-shrink: 0;
+    }
+    .page-content {
+      padding: 20px;
+      max-width: 800px;
+      margin: 10px auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      display: none;
+      flex-grow: 1;
+    }
+    .back-button {
+      background: orange;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-bottom: 10px;
+      font-size: 0.9em;
+    }
+    .form-group {
+      margin-bottom: 12px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+    .main-content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .about-content, .contact-content {
+      line-height: 1.6;
+    }
+    .about-content h3, .contact-content h3 {
+      color: green;
+      margin-top: 20px;
+    }
+    .contact-method {
+      margin-bottom: 15px;
+    }
+    .contact-method i {
+      color: orange;
+      margin-right: 10px;
+    }
+    .image-preview {
+      max-width: 100%;
+      max-height: 200px;
+      margin-top: 10px;
+      display: none;
+    }
+    .auth-form {
+      max-width: 500px;
+      margin: 30px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      display: none;
+    }
+    .auth-form h2 {
+      text-align: center;
+      color: green;
+      margin-top: 0;
+    }
+    .auth-form input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    .profile-photo-upload {
+      margin: 20px 0;
+    }
+    .swiper-pagination-bullet-active {
+      background: orange !important;
+    }
+    .swiper-button-next, .swiper-button-prev {
+      color: orange !important;
+    }
+    .form-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .form-buttons button {
+      flex: 1;
+    }
+    #townDropdown {
+      display: none;
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .interaction-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      padding: 0 15px 15px;
+    }
+    .like-btn, .comment-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+    .like-btn {
+      background: #ff6b6b;
+      color: white;
+    }
+    .comment-btn {
+      background: #4dabf7;
+      color: white;
+    }
+    .comments-section {
+      padding: 0 15px 15px;
+      display: none;
+    }
+    .comment-input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+    .comment {
+      margin-top: 10px;
+      padding: 8px;
+      background: #f8f9fa;
+      border-radius: 4px;
+    }
+    .comment-author {
+      font-weight: bold;
+      font-size: 0.9em;
+    }
+    .comment-text {
+      margin-top: 5px;
+    }
+    .verified-badge {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background: gold;
+      border-radius: 50%;
+      position: relative;
+      margin-left: 5px;
+    }
+    .verified-badge::after {
+      content: "✓";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #1da1f2;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .payment-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .payment-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    .payment-content h3 {
+      color: green;
+      margin-top: 0;
+    }
+    .payment-btn {
+      background: green;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 15px;
+    }
+    .premium-content {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .premium-btn {
+      background: orange;
+      color: white;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .hidden-contact {
+      filter: blur(5px);
+      user-select: none;
+    }
+    .id-upload-section {
+      margin: 15px 0;
+    }
+    .id-preview {
+      max-width: 100%;
+      max-height: 150px;
+      margin-top: 10px;
+      display: none;
+    }
+    .subscription-status {
+      font-size: 0.8em;
+      color: #555;
+      margin-top: 5px;
+    }
+    .search-container {
+      padding: 8px;
+      background: white;
+      border-radius: 25px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-left: auto;
+      margin-right: 20px;
+      width: 250px;
+    }
+    #globalSearch {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      outline: none;
+    }
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: green;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 4px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+      display: none;
+    }
+    /* Admin Buttons */
+    .btn-remove { background: #ff6b6b; color: white; }
+    .btn-approve { background: #4CAF50; color: white; }
+    
+    /* Analytics Cards */
+    .analytics-cards {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .card {
+      flex: 1;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 800px;
+      width: 100%;
+    }
+    .payment-btn {
+      background: green;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 15px;
+    }
+    .btn-cancel {
+      background: #ccc;
+      color: #333;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+    
+    /* New Premium Status Styles */
+    #premiumStatus {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      margin-left: 15px;
+    }
+    .premium-badge {
+      background: gold;
+      color: #333;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 0.8em;
+    }
+    #timeRemaining {
+      color: #f1f1f1;
+      font-size: 0.85em;
+    }
+    .help-icon {
+      background: none;
+      border: none;
+      color: white;
+      cursor: help;
+      font-size: 0.9em;
+    }
+    
+    /* Spinner Animation */
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    #spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s linear infinite;
+      margin-left: 8px;
+    }
+    
+    /* Admin Dashboard Styles */
+    .admin-section {
+      display: none;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    
+    .admin-table th, .admin-table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    
+    .admin-table th {
+      background-color: #f2f2f2;
+    }
+    
+    .chart-container {
+      width: 100%;
+      height: 400px;
+      margin-top: 20px;
+    }
+    
+    .online-users {
+      margin-top: 20px;
+    }
+    
+    .online-user {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .online-user-photo {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+    
+    .admin-tabs {
+      display: flex;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .admin-tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+    }
+    
+    .admin-tab.active {
+      border-bottom: 3px solid orange;
+      font-weight: bold;
+    }
+    
+    .admin-content {
+      display: none;
+    }
+    
+    .admin-content.active {
+      display: block;
+    }
+    
+    /* Admin verification section */
+    .verification-section {
+      margin-top: 30px;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+    }
+    
+    .verification-item {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    
+    .verification-photos {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .verification-photo {
+      max-width: 150px;
+      max-height: 150px;
+      border-radius: 4px;
+    }
+    
+    .verification-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    /* Settings Page */
+    .settings-page {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    
+    .settings-section {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .settings-section h3 {
+      color: green;
+      margin-top: 0;
+    }
+    
+    .language-selector {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .language-option {
+      padding: 8px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .language-option.selected {
+      background: green;
+      color: white;
+      border-color: green;
+    }
+    
+    /* Badge Application */
+    .badge-application {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    
+    .badge-application h4 {
+      margin-top: 0;
+      color: orange;
+    }
+    
+    /* Admin Announcement */
+    .admin-announcement {
+      background: #fff9e6;
+      border-left: 4px solid gold;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 0 4px 4px 0;
+    }
+    
+    .admin-announcement .lister-info {
+      border-bottom: none;
+      margin: 0 0 10px 0;
+    }
+    
+    .admin-announcement .lister-name {
+      color: #333;
+      font-weight: bold;
+    }
+    
+    /* Admin badge */
+    .admin-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff4500, #ff6347);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 0.8em;
+      margin-left: 5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    
+    /* Settings dropdown */
+    .settings-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .settings-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2em;
+      cursor: pointer;
+      padding: 5px;
+    }
+    
+    .settings-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      background: white;
+      min-width: 200px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      border-radius: 4px;
+      z-index: 100;
+      padding: 10px 0;
+    }
+    
+    .settings-menu a {
+      display: block;
+      padding: 8px 15px;
+      color: #333;
+      text-decoration: none;
+    }
+    
+    .settings-menu a:hover {
+      background: #f5f5f5;
+    }
+    
+    .settings-dropdown:hover .settings-menu {
+      display: block;
+    }
+    
+    /* Badge application modal */
+    .badge-modal-content {
+      max-width: 500px;
+    }
+    
+    .receipt-preview {
+      max-width: 100%;
+      max-height: 200px;
+      margin-top: 10px;
+      display: none;
+    }
+    
+    /* Post timestamp and views */
+    .post-meta {
+      font-size: 0.8em;
+      color: #777;
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    /* Delete button for admin */
+    .delete-post-btn {
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8em;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-content">
+      <div class="logo-title" onclick="handleLogoClick()">
+        <img src="logo.png.png" alt="Keja Yangu Logo">
+        <div class="logo-title-container">
+          <h1>KEJA YANGU</h1>
+          <p class="slogan">Pata Keja yako sasa</p>
+        </div>
+      </div>
+      
+      <div id="premiumStatus">
+        <span class="premium-badge">PREMIUM</span>
+        <span id="timeRemaining"></span>
+        <button class="help-icon" onclick="showModal('helpModal')">?</button>
+      </div>
+
+      <div class="auth-buttons">
+        <a href="#" onclick="showLoginForm()" class="auth-btn login-btn">Log In</a>
+        <a href="#" onclick="showSignupForm()" class="auth-btn signup-btn">Sign Up</a>
+      </div>
+      
+      <div class="search-container">
+        <input type="text" id="globalSearch" placeholder="Search for a town or county..." oninput="searchAllLocations(this.value)">
+      </div>
+      
+      <div class="nav">
+        <a href="#" onclick="goHome()">Home</a>
+        <a href="#" onclick="showPage('about')">About</a>
+        <a href="#" onclick="showPage('contact')">Contact</a>
+        <a href="#" onclick="showUploadForm()">List</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div id="countySection" class="county-grid"></div>
+    <div id="townSection" class="town-grid" style="display:none;"></div>
+    <div id="feedSection" class="feed" style="display:none;"></div>
+    
+    <div id="uploadSection" class="upload-form">
+      <h2>Upload Your Listing</h2>
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" id="title" placeholder="3-Bedroom Apartment">
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="text" id="price" placeholder="Ksh 15,000">
+      </div>
+      <div class="form-group">
+        <label for="county">County</label>
+        <select id="county" onchange="updateTownDropdown()">
+          <option value="">Select County</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="town">Town/Area</label>
+        <select id="townDropdown">
+          <option value="">Select Town</option>
+        </select>
+        <input type="text" id="location" placeholder="Or enter new town name" style="display:none;">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" placeholder="Spacious apartment with balcony and parking"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="phone">Your Phone Number (will be shown to potential tenants)</label>
+        <input type="text" id="phone" placeholder="07XXXXXXXX" required>
+      </div>
+      <div class="form-group">
+        <label for="map">Google Maps Link</label>
+        <input type="text" id="map" placeholder="https://maps.google.com/..." required>
+      </div>
+      <div class="form-group">
+        <label for="imageInput">Upload Photos/Video (Maximum 10 files - photos and 1 video)</label>
+        <input type="file" id="imageInput" accept="image/*,video/*" multiple onchange="previewImages(event)">
+        <div id="imagePreviews" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
+      </div>
+      <div class="form-buttons">
+        <button onclick="postListing()">Post Now</button>
+        <button class="back-button" onclick="goBackFromUpload()">Back</button>
+      </div>
+    </div>
+
+    <div id="signupForm" class="auth-form">
+      <h2>Create Account</h2>
+      <div class="form-group">
+        <label for="signup-name">Full Name</label>
+        <input type="text" id="signup-name" placeholder="Enter your full name" required>
+      </div>
+      <div class="form-group">
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" placeholder="your@email.com" required>
+      </div>
+      <div class="form-group">
+        <label for="signup-phone">Phone Number</label>
+        <input type="text" id="signup-phone" placeholder="07XXXXXXXX" required>
+      </div>
+      <div class="form-group">
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" placeholder="Create password" required>
+      </div>
+      <div class="form-group">
+        <label>
+          <input type="checkbox" id="isLandlord"> I'm a landlord/property manager
+        </label>
+      </div>
+      <div class="form-group profile-photo-upload">
+        <label for="signup-photo">Profile Photo (Required)</label>
+        <input type="file" id="signup-photo" accept="image/*" required onchange="previewProfilePhoto(event)">
+        <img id="signup-photo-preview" class="image-preview" alt="Profile Preview">
+      </div>
+      <div id="landlordFields" style="display: none; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
+        <h3 style="color: orange; font-size: 1em;">Landlord Verification</h3>
+        <div class="form-group">
+          <label>Government ID Photo</label>
+          <input type="file" id="idPhoto" accept="image/*">
+          <img id="id-photo-preview" class="id-preview" alt="ID Photo Preview">
+        </div>
+        <div class="form-group">
+          <label>Selfie with ID</label>
+          <input type="file" id="idSelfie" accept="image/*">
+          <img id="id-selfie-preview" class="id-preview" alt="Selfie Preview">
+        </div>
+      </div>
+      <button onclick="createAccount()" class="auth-btn" style="background: green; color: white; width: 100%;">Sign Up</button>
+      <p style="text-align: center; margin-top: 15px;">Already have an account? <a href="#" onclick="showLoginForm()">Log In</a></p>
+      <button class="back-button" onclick="goHome()">Back</button>
+    </div>
+
+    <div id="loginForm" class="auth-form">
+      <h2>Welcome Back</h2>
+      <div class="form-group">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" placeholder="your@email.com" required>
+      </div>
+      <div class="form-group">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" placeholder="Enter password" required>
+      </div>
+      <button onclick="loginUser()" class="auth-btn" style="background: green; color: white; width: 100%;">Log In</button>
+      <p style="text-align: center; margin-top: 15px;">Don't have an account? <a href="#" onclick="showSignupForm()">Sign Up</a></p>
+      <button class="back-button" onclick="goHome()">Back</button>
+    </div>
+
+    <div id="aboutPage" class="page-content">
+      <button class="back-button" onclick="goHome()">Back</button>
+      <h2>About Keja Yangu</h2>
+      <div class="about-content">
+        <p>Welcome to Keja Yangu, Kenya's premier online platform connecting landlords and tenants across all 47 counties.</p>
+        <h3>Our Services</h3>
+        <p>• Verified property listings with real photos</p>
+        <p>• Direct communication between landlords and tenants</p>
+      </div>
+    </div>
+
+    <div id="contactPage" class="page-content">
+      <button class="back-button" onclick="goHome()">Back</button>
+      <h2>Contact Keja Yangu</h2>
+      <div class="contact-content">
+        <p>We'd love to hear from you! Reach out through any of these channels:</p>
+        <p>Email: support@kejayangu.co.ke</p>
+        <p>Phone: +254 798725928</p>
+      </div>
+    </div>
+    
+    <div id="settingsPage" class="page-content" style="display:none;">
+      <button class="back-button" onclick="goHome()">Back</button>
+      <h2>Settings</h2>
+      
+      <div class="settings-section">
+        <h3>Language</h3>
+        <div class="language-selector">
+          <div class="language-option selected" onclick="changeLanguage('en')">English</div>
+          <div class="language-option" onclick="changeLanguage('sw')">Swahili</div>
+          <div class="language-option" onclick="changeLanguage('fr')">French</div>
+          <div class="language-option" onclick="changeLanguage('zh')">Chinese</div>
+          <div class="language-option" onclick="changeLanguage('la')">Latin</div>
+        </div>
+      </div>
+      
+      <div class="settings-section">
+        <h3>Account</h3>
+        <button onclick="changePassword()" class="auth-btn" style="background: #555; color: white; width: 100%; margin-bottom: 10px;">Change Password</button>
+        <button onclick="deleteAccount()" class="auth-btn" style="background: #ff6b6b; color: white; width: 100%;">Delete Account</button>
+      </div>
+      
+      <div class="settings-section">
+        <h3>Premium Badge</h3>
+        <div class="badge-application">
+          <p>Apply for a Premium Badge to get your listings prioritized and gain more visibility.</p>
+          <p><strong>Benefits:</strong></p>
+          <ul>
+            <li>Your listings appear at the top of search results</li>
+            <li>Gold badge next to your name increases credibility</li>
+            <li>Higher response rates from potential tenants</li>
+          </ul>
+          <p><strong>Cost: Ksh 1,000 (one-time payment)</strong></p>
+          
+          <div id="badgeStatus">
+            ${currentUser?.premiumBadge ? 
+              '<p style="color:green;">You already have the Premium Badge!</p>' : 
+              '<button onclick="showBadgeApplication()" class="auth-btn" style="background: gold; color: #333; width: 100%;">Apply for Premium Badge</button>'
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="adminDashboard" class="admin-section">
+      <div class="admin-tabs">
+        <div class="admin-tab active" onclick="switchAdminTab('users')">Users</div>
+        <div class="admin-tab" onclick="switchAdminTab('analytics')">Analytics</div>
+        <div class="admin-tab" onclick="switchAdminTab('online')">Online Users</div>
+        <div class="admin-tab" onclick="switchAdminTab('verifications')">Verifications</div>
+        <div class="admin-tab" onclick="switchAdminTab('badgeApps')">Badge Applications</div>
+        <div class="admin-tab" onclick="switchAdminTab('announcements')">Post Announcement</div>
+      </div>
+      
+      <div id="usersTab" class="admin-content active">
+        <h3>User Management</h3>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody">
+          </tbody>
+        </table>
+      </div>
+      
+      <div id="analyticsTab" class="admin-content">
+        <h3>Platform Analytics</h3>
+        <div class="analytics-cards">
+          <div class="card">
+            <h4>Total Users</h4>
+            <p id="totalUsers">0</p>
+          </div>
+          <div class="card">
+            <h4>Active Listers</h4>
+            <p id="activeListers">0</p>
+          </div>
+          <div class="card">
+            <h4>Revenue (7d)</h4>
+            <p id="weeklyRevenue">KES 0</p>
+          </div>
+        </div>
+        
+        <h4>User Growth</h4>
+        <div class="chart-container">
+          <canvas id="userGrowthChart"></canvas>
+        </div>
+        
+        <h4>Revenue</h4>
+        <div class="chart-container">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+      
+      <div id="onlineTab" class="admin-content">
+        <h3>Currently Online Users</h3>
+        <div class="online-users" id="onlineUsersList">
+          <!-- Online users will be listed here -->
+        </div>
+      </div>
+      
+      <div id="verificationsTab" class="admin-content">
+        <h3>Landlord Verifications</h3>
+        <div id="verificationsList" class="verification-section">
+          <!-- Verification requests will be listed here -->
+        </div>
+      </div>
+      
+      <div id="badgeAppsTab" class="admin-content">
+        <h3>Premium Badge Applications</h3>
+        <div id="badgeApplicationsList">
+          <!-- Badge applications will be listed here -->
+        </div>
+      </div>
+      
+      <div id="announcementsTab" class="admin-content">
+        <h3>Post Announcement</h3>
+        <div class="form-group">
+          <label for="announcementTitle">Title</label>
+          <input type="text" id="announcementTitle" placeholder="Important Announcement">
+        </div>
+        <div class="form-group">
+          <label for="announcementText">Message</label>
+          <textarea id="announcementText" rows="5" placeholder="Type your announcement here..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="announcementMedia">Add Image/Video (Optional)</label>
+          <input type="file" id="announcementMedia" accept="image/*,video/*">
+          <div id="announcementPreview" style="margin-top:10px;"></div>
+        </div>
+        <button onclick="postAnnouncement()" class="payment-btn">Post Announcement</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Modals -->
+  <div id="paymentModal" class="payment-modal">
+    <div class="payment-content">
+      <h3><i class="fas fa-crown"></i> Premium Access</h3>
+      <p>Pay <strong>Ksh 100</strong> to view all contact details for <strong>24 hours</strong></p>
+      
+      <div class="form-group">
+        <label>M-Pesa Phone Number</label>
+        <input type="text" id="mpesaPhone" placeholder="2547XXXXXXXX" pattern="254[17]\d{8}">
+      </div>
+      
+      <button id="payButton" class="payment-btn" onclick="processPayment()">
+        <span id="payText">Pay Now</span>
+        <span id="spinner"></span>
+      </button>
+      
+      <div id="paymentFeedback" style="margin-top:15px; min-height:20px;"></div>
+      
+      <button class="btn-cancel" onclick="closeModal('paymentModal')">Cancel</button>
+    </div>
+  </div>
+
+  <div id="helpModal" class="payment-modal">
+    <div class="payment-content">
+      <h3><i class="fas fa-question-circle"></i> Premium Help</h3>
+      <ul style="text-align: left; padding-left: 20px; line-height: 1.6;">
+        <li>💰 <strong>Ksh 100</strong> unlocks <strong>all</strong> contacts for <strong>24 hours</strong></li>
+        <li>📱 Payments via <strong>M-Pesa</strong> (Paybill 516600)</li>
+        <li>⏳ Timer shows remaining access time</li>
+        <li>🔄 Renew anytime - extends your access</li>
+      </ul>
+      <button class="payment-btn" onclick="closeModal('helpModal')">Got It!</button>
+    </div>
+  </div>
+
+  <div id="renewalModal" class="modal">
+    <div class="modal-content">
+      <h3><i class="fas fa-clock"></i> Your Access Expires Soon!</h3>
+      <p>Renew now to continue viewing contacts.</p>
+      <button onclick="renewAccess()" class="payment-btn">Renew for KES 150</button>
+      <button onclick="closeModal('renewalModal')" class="btn-cancel">Later</button>
+    </div>
+  </div>
+
+  <div id="newLocationModal" class="modal">
+    <div class="modal-content">
+      <h3>Add New Location</h3>
+      <div class="form-group">
+        <label for="newTownName">Town Name</label>
+        <input type="text" id="newTownName" placeholder="Enter town name">
+      </div>
+      <div class="form-group">
+        <label for="newCounty">County</label>
+        <select id="newCounty">
+          <option value="">Select County</option>
+        </select>
+      </div>
+      <button onclick="addNewLocation()" class="payment-btn">Add Location</button>
+      <button onclick="closeModal('newLocationModal')" class="btn-cancel">Cancel</button>
+    </div>
+  </div>
+
+  <div id="adminLoginModal" class="modal">
+    <div class="modal-content">
+      <h3>Admin Login</h3>
+      <div class="form-group">
+        <label for="adminEmail">Email</label>
+        <input type="email" id="adminEmail" placeholder="admin@email.com">
+      </div>
+      <div class="form-group">
+        <label for="adminPassword">Password</label>
+        <input type="password" id="adminPassword" placeholder="Password">
+      </div>
+      <div class="form-group">
+        <label for="adminSecret">Secret Word</label>
+        <input type="password" id="adminSecret" placeholder="Secret word">
+      </div>
+      <button onclick="verifyAdmin()" class="payment-btn">Login</button>
+      <button onclick="closeModal('adminLoginModal')" class="btn-cancel">Cancel</button>
+    </div>
+  </div>
+
+  <div id="badgeApplicationModal" class="modal">
+    <div class="modal-content badge-modal-content">
+      <h3><i class="fas fa-medal"></i> Premium Badge Application</h3>
+      <p>To apply for the Premium Badge, please complete the following steps:</p>
+      
+      <ol style="text-align: left; margin-bottom: 20px;">
+        <li>Send Ksh 1,000 to Paybill: <strong>516600</strong> Account: <strong>YOURNAME</strong></li>
+        <li>Upload a clear photo of your payment receipt below</li>
+        <li>Our team will verify your payment within 24 hours</li>
+      </ol>
+      
+      <div class="form-group">
+        <label for="receiptUpload">Upload Payment Receipt</label>
+        <input type="file" id="receiptUpload" accept="image/*" onchange="previewReceipt(event)">
+        <img id="receiptPreview" class="receipt-preview" alt="Receipt Preview">
+      </div>
+      
+      <button onclick="submitBadgeApplication()" class="payment-btn">Submit Application</button>
+      <button onclick="closeModal('badgeApplicationModal')" class="btn-cancel">Cancel</button>
+    </div>
+  </div>
+
+  <div class="notification" id="newListingNotification">
+    New listing available in <span id="notificationLocation"></span>!
+  </div>
+
+  <footer>
+    <p>&copy; 2025 KEJA YANGU. All rights reserved.</p>
+  </footer>
+
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+    const sharedTowns = {
+      "Kitengela": ["Nairobi", "Kajiado"],
+      "Rongai": ["Nairobi", "Kajiado"],
+      "Mlolongo": ["Nairobi", "Machakos"],
+      "Athi River": ["Nairobi", "Machakos"],
+      "Ruai": ["Nairobi", "Kiambu"],
+      "Ruiru": ["Nairobi", "Kiambu"],
+      "Juja": ["Nairobi", "Kiambu"],
+      "Thika": ["Nairobi", "Kiambu"],
+      "Limuru": ["Nairobi", "Kiambu"],
+      "Kikuyu": ["Nairobi", "Kiambu"]
+    };
+
+    const countyTowns = {
+      "Nairobi": ["Nairobi CBD", "Westlands", "Kasarani", "Embakasi", "Dagoretti", "Langata", "Ruaraka", "Starehe", "Makadara", "Kamukunji", "Mathare", 
+                 "Kilimani", "Lavington", "Karen", "Runda", "Muthaiga", "Parklands", "South B", "South C", "Eastleigh", "Donholm", "Buruburu", 
+                 "Kileleshwa", "Hurlingham", "Ngong Road", "Thika Road", "Juja", "Kitengela", "Rongai", "Kikuyu", "Kiambu", "Thika", "Limuru", 
+                 "Githurai", "Ruiru", "Athi River", "Mlolongo", "Syokimau", "Utawala", "Embakasi Village", "Kayole", "Umoja", "Komarock", 
+                 "Dandora", "Kariobangi", "Buru Buru", "Imara Daima", "Industrial Area", "Upper Hill", "Ngara", "Pangani", "Kariokor", 
+                 "Kawangware", "Githurai 45", "Kahawa West", "Kahawa Sukari", "Roysambu", "Garden Estate", "Mirema", "Clay City", "Kasarani", 
+                 "Njiru", "Ruai", "Utawala", "Embakasi", "Donholm", "Kayole", "Umoja", "Komarock", "Highridge", "Kawangware 56", "Mountain View"],
+      "Baringo": ["Kabarnet", "Eldama Ravine", "Marigat", "Mogotio", "Kabartonjo", "Sacho", "Kiptagich", "Bartabwa", "Barwessa", "Kabarion", "Kinyach"],
+      "Bomet": ["Bomet", "Longisa", "Sotik", "Chepalungu", "Ndanai", "Konoin", "Merigi", "Sigor", "Chesoen", "Kapletundo", "Tenwek"],
+      "Bungoma": ["Bungoma", "Webuye", "Kimilili", "Malakisi", "Sirisia", "Chwele", "Nalondo", "Mbakalo", "Kimilil", "Kabuchai", "Lugulu"],
+      "Busia": ["Busia", "Malaba", "Nambale", "Port Victoria", "Funyula", "Lubao", "Bumala", "Nangina", "Alupe", "Amukura", "Budalangi"],
+      "Elgeyo-Marakwet": ["Iten", "Tambach", "Chesoi", "Chepkorio", "Kapyego", "Kapsowar", "Tot", "Arror", "Chebiemit", "Kaptarakwa", "Kapcherop"],
+      "Embu": ["Embu", "Runyenjes", "Siakago", "Manyatta", "Kiritiri", "Ishiara", "Gachoka", "Mavuria", "Kianjokoma", "Karaba", "Kevote"],
+      "Garissa": ["Garissa", "Dadaab", "Hola", "Bura", "Masalani", "Ijara", "Fafi", "Hulugho", "Sankuri", "Modogashe", "Balambala"],
+      "Homa Bay": ["Homa Bay", "Oyugis", "Kendu Bay", "Rangwe", "Mbita", "Ndhiwa", "Rod Kopany", "Sindo", "Kanyadoto", "Kanyikela", "Kodera"],
+      "Isiolo": ["Isiolo", "Garba Tulla", "Merti", "Kinna", "Oldonyiro", "Sericho", "Bulla Pesa", "Garba", "Kina", "Malka Daka", "Bulesa"],
+      "Kajiado": ["Kajiado", "Ongata Rongai", "Kitengela", "Ngong", "Namanga", "Isinya", "Oloitoktok", "Ilbisil", "Kipeto", "Entonet", "Matapato"],
+      "Kakamega": ["Kakamega", "Mumias", "Malava", "Butere", "Shinyalu", "Lurambi", "Khayega", "Shirere", "Matungu", "Koyonzo", "Musanda"],
+      "Kericho": ["Kericho", "Litein", "Bureti", "Sotik", "Kipkelion", "Belgut", "Londiani", "Kiptere", "Chepseon", "Sigowet", "Kapkatet"],
+      "Kiambu": ["Kiambu", "Thika", "Ruiru", "Kikuyu", "Limuru", "Gatundu", "Githunguri", "Kabete", "Karuri", "Ndenderu", "Kinoo"],
+      "Kilifi": ["Kilifi", "Malindi", "Watamu", "Mariakani", "Mtwapa", "Rabai", "Bofa", "Mavueni", "Tezo", "Matsangoni", "Ganze"],
+      "Kirinyaga": ["Kerugoya", "Sagana", "Wanguru", "Baricho", "Kagio", "Kutus", "Githure", "Mutithi", "Kianyaga", "Makutano", "Kiamutugu"],
+      "Kisii": ["Kisii", "Suneka", "Ogembo", "Nyamache", "Tabaka", "Keroka", "Nyansiongo", "Rigoma", "Nyatieko", "Masimba", "Ikonge"],
+      "Kisumu": ["Kisumu", "Ahero", "Katito", "Muhoroni", "Kondele", "Dago", "Kajulu", "Maseno", "Nyakach", "Pap Onditi", "Kombewa"],
+      "Kitui": ["Kitui", "Mwingi", "Mutomo", "Kibwezi", "Ikutha", "Tseikuru", "Kyuso", "Endau", "Migwani", "Kanyangi", "Katutu"],
+      "Kwale": ["Kwale", "Ukunda", "Msambweni", "Lunga Lunga", "Kinango", "Shimoni", "Mkongani", "Matuga", "Gombato", "Pongwe", "Mwereni"],
+      "Laikipia": ["Nanyuki", "Rumuruti", "Nyahururu", "Dol Dol", "Ol Moran", "Kinamba", "Mukogodo", "Segera", "Timau", "Ngobit", "Rumuruti"],
+      "Lamu": ["Lamu", "Mpeketoni", "Faza", "Witu", "Kiunga", "Mokowe", "Kizingitini", "Pate", "Matondoni", "Kipungani", "Shella"],
+      "Machakos": ["Machakos", "Athi River", "Mwala", "Yatta", "Kangundo", "Matungulu", "Kathiani", "Mavoko", "Kinanie", "Mitaboni", "Masii"],
+      "Makueni": ["Wote", "Makindu", "Sultan Hamud", "Kibwezi", "Mtito Andei", "Emali", "Kathonzweni", "Kilala", "Kikumbulyu", "Kasikeu", "Mbooni"],
+      "Mandera": ["Mandera", "El Wak", "Takaba", "Rhamu", "Lafey", "Banissa", "Ashabito", "Gither", "Dandu", "Warankara", "Khalalio"],
+      "Marsabit": ["Marsabit", "Moyale", "Laisamis", "Loiyangalani", "Sololo", "Maikona", "North Horr", "Kargi", "Korr", "Sagante", "Illeret"],
+      "Meru": ["Meru", "Maua", "Nkubu", "Timau", "Mitunguu", "Kibirichia", "Kianjai", "Gitoro", "Kiegoi", "Katheri", "Mikinduri"],
+      "Migori": ["Migori", "Rongo", "Awendo", "Kehancha", "Uriri", "Nyatike", "Muhuru", "Kakrao", "Macalder", "Sori", "Got Kachola"],
+      "Mombasa": ["Mombasa", "Nyali", "Likoni", "Changamwe", "Kisauni", "Mvita", "Bamburi", "Shanzu", "Mikindani", "Mtongwe", "Miritini"],
+      "Murang'a": ["Murang'a", "Kangema", "Kahuro", "Kiharu", "Gatanga", "Kandara", "Maragua", "Kigumo", "Kiriaini", "Makuyu", "Kambiti"],
+      "Nakuru": ["Nakuru", "Naivasha", "Gilgil", "Molo", "Njoro", "Rongai", "Bahati", "Subukia", "Mau Narok", "Elburgon", "Solai"],
+      "Nandi": ["Kapsabet", "Nandi Hills", "Mosoriot", "Kobujoi", "Lessos", "Tinderet", "Chepterwai", "Kaptumo", "Kilibwoni", "Kipture", "Songhor"],
+      "Narok": ["Narok", "Kilgoris", "Suswa", "Ololulung'a", "Ntulele", "Ewaso Nyiro", "Nkareta", "Mai Mahiu", "Narok Town", "Sogoo", "Oloirien"],
+      "Nyamira": ["Nyamira", "Nyansiongo", "Keroka", "Ekerenyo", "Manga", "Rigoma", "Bomwagamo", "Magombo", "Sironga", "Kiabonyoru", "Gesima"],
+      "Nyandarua": ["Ol Kalou", "Nyahururu", "Njabini", "Engineer", "Kinangop", "Kipipiri", "Gathanji", "Wanjohi", "North Kinangop", "Magumu", "Leshau"],
+      "Nyeri": ["Nyeri", "Karatina", "Othaya", "Mukurweini", "Mathira", "Tetu", "Chaka", "Ihururu", "Endarasha", "Gatitu", "Kamakwa"],
+      "Samburu": ["Maralal", "Baragoi", "Archer's Post", "Wamba", "South Horr", "Loiyangalani", "Ngurunit", "Suguta Marmar", "Waso", "Angata Nanyokie"],
+      "Siaya": ["Siaya", "Ugunja", "Bondo", "Yala", "Ukwala", "Ngiya", "Sega", "Ungoye", "Ramula", "Sidindi", "Madiany"],
+      "Taita-Taveta": ["Voi", "Mwatate", "Wundanyi", "Taveta", "Mghange", "Bura", "Werugha", "Maktau", "Mata", "Chawia", "Mbololo"],
+      "Tana River": ["Hola", "Garsen", "Bura", "Madogo", "Bangale", "Kipini", "Sala", "Kone", "Mnazini", "Mikinduni", "Chewani"],
+      "Tharaka-Nithi": ["Chuka", "Kathwana", "Marimanti", "Magutuni", "Mitheru", "Nkondi", "Mugwe", "Mukothima", "Gatunga", "Nthawa"],
+      "Trans-Nzoia": ["Kitale", "Endebess", "Kiminini", "Matunda", "Sirende", "Kachibora", "Saboti", "Kapomboi", "Sinyerere", "Waitaluk", "Kwanza"],
+      "Turkana": ["Lodwar", "Kakuma", "Lokichogio", "Kalokol", "Lokitaung", "Katilu", "Lokori", "Kainuk", "Lokichar", "Nakwamekwi", "Nakalale"],
+      "Uasin Gishu": ["Eldoret", "Burnt Forest", "Huruma", "Ziwa", "Kimumu", "Sergoit", "Langas", "Kipkenyo", "Kimumu", "Munyaka", "Kapseret"],
+      "Vihiga": ["Vihiga", "Mbale", "Luanda", "Serem", "Maseno", "Ebusakami", "Chavakali", "Shamakhokho", "Gisambai", "Bunyore", "Wodanga"],
+      "Wajir": ["Wajir", "Habaswein", "Buna", "Griftu", "Arbajahan", "Eldas", "Tarbaj", "Diff", "Wajir Bor", "Sarman", "Kutulo"],
+      "West Pokot": ["Kapenguria", "Makutano", "Ortum", "Sigor", "Kacheliba", "Lomut", "Alale", "Kasei", "Kanyarkwat", "Kodich", "Konyao"]
+    };
+
+    const countyContainer = document.getElementById("countySection");
+    const townContainer = document.getElementById("townSection");
+    const feedSection = document.getElementById("feedSection");
+    const uploadSection = document.getElementById("uploadSection");
+    const aboutPage = document.getElementById("aboutPage");
+    const contactPage = document.getElementById("contactPage");
+    const settingsPage = document.getElementById("settingsPage");
+    const countySelect = document.getElementById("county");
+    const townDropdown = document.getElementById("townDropdown");
+    const locationInput = document.getElementById("location");
+    const signupForm = document.getElementById("signupForm");
+    const loginForm = document.getElementById("loginForm");
+    const imagePreviews = document.getElementById("imagePreviews");
+    const signupPhotoPreview = document.getElementById("signup-photo-preview");
+    const paymentModal = document.getElementById("paymentModal");
+    const renewalModal = document.getElementById("renewalModal");
+    const notification = document.getElementById("newListingNotification");
+    const adminDashboard = document.getElementById("adminDashboard");
+    let currentPostToPayFor = null;
+
+    let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+    let currentTown = "";
+    let currentPage = "home";
+    let uploadedImages = [];
+    let uploadedVideos = [];
+    let allTowns = [];
+    let onlineUsers = [];
+    let userActivity = {};
+    let currentLanguage = 'en';
+
+    function showModal(modalId) {
+      document.getElementById(modalId).style.display = 'flex';
+    }
+    
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+    
+    async function processPayment() {
+      const phoneInput = document.getElementById('mpesaPhone');
+      const phone = phoneInput.value.trim();
+      
+      if (!phone.match(/^254[17]\d{8}$/)) {
+        showFeedback("Please enter valid M-Pesa number (2547XXXXXXXX)");
+        return;
+      }
+      
+      togglePaymentUI(true);
+      showFeedback("Sending payment request...");
+      
+      try {
+        // Simulate payment processing (replace with actual API call)
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // On success:
+        const expiryTime = Date.now() + (24 * 60 * 60 * 1000); // 24 hours from now
+        
+        if (!currentUser) {
+          currentUser = { premium_expiry: expiryTime };
+        } else {
+          currentUser.premium_expiry = expiryTime;
+        }
+        
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        
+        showFeedback("Payment successful! Unlocking access...", "success");
+        updatePremiumStatus();
+        
+        setTimeout(() => {
+          closeModal('paymentModal');
+          renderFeed(); // Refresh listings
+        }, 1500);
+        
+      } catch (error) {
+        showFeedback("Payment failed. Please try again.", "error");
+      } finally {
+        togglePaymentUI(false);
+      }
+    }
+    
+    function updatePremiumStatus() {
+      const statusEl = document.getElementById('premiumStatus');
+      const timerEl = document.getElementById('timeRemaining');
+      
+      if (!currentUser?.premium_expiry) {
+        statusEl.style.display = 'none';
+        return;
+      }
+      
+      const updateTimer = () => {
+        const now = Date.now();
+        const remaining = currentUser.premium_expiry - now;
+        
+        if (remaining <= 0) {
+          statusEl.style.display = 'none';
+          return;
+        }
+        
+        const hours = Math.floor(remaining / (1000 * 60 * 60));
+        const mins = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+        timerEl.textContent = `${hours}h ${mins}m remaining`;
+        statusEl.style.display = 'flex';
+      };
+      
+      updateTimer();
+      setInterval(updateTimer, 60000); // Update every minute
+    }
+    
+    function togglePaymentUI(processing) {
+      document.getElementById('payText').style.display = processing ? 'none' : 'inline';
+      document.getElementById('spinner').style.display = processing ? 'inline-block' : 'none';
+      document.getElementById('payButton').disabled = processing;
+      document.getElementById('mpesaPhone').disabled = processing;
+    }
+    
+    function showFeedback(msg, type = 'info') {
+      const feedbackEl = document.getElementById('paymentFeedback');
+      feedbackEl.textContent = msg;
+      feedbackEl.style.color = type === 'error' ? 'red' : type === 'success' ? 'green' : '#666';
+    }
+
+    function renderFeed() {
+      feedSection.innerHTML = `<h2 style="text-align:center; color: green; margin-top: 0;">Available Houses in ${currentTown}</h2>`;
+      const [town, county] = currentTown.split(", ");
+      let posts = JSON.parse(localStorage.getItem(currentTown)) || [];
+      
+      // Check for admin announcements
+      const announcements = JSON.parse(localStorage.getItem('announcements')) || [];
+      announcements.forEach(announcement => {
+        posts.unshift({
+          ...announcement,
+          isAnnouncement: true
+        });
+      });
+      
+      // Check shared towns for additional posts
+      if (sharedTowns[town]) {
+        sharedTowns[town].forEach(sharedCounty => {
+          if (sharedCounty !== county) {
+            const sharedPosts = JSON.parse(localStorage.getItem(`${town}, ${sharedCounty}`)) || [];
+            posts = [...posts, ...sharedPosts];
+          }
+        });
+      }
+      
+      // Sort posts - premium listings first, then regular, then by date
+      posts.sort((a, b) => {
+        // Admin announcements always come first
+        if (a.isAnnouncement) return -1;
+        if (b.isAnnouncement) return 1;
+        
+        // Then premium badge listings
+        const aPremium = a.lister?.premiumBadge || false;
+        const bPremium = b.lister?.premiumBadge || false;
+        if (aPremium && !bPremium) return -1;
+        if (!aPremium && bPremium) return 1;
+        
+        // Then by date (newest first)
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      
+      if (posts.length === 0) {
+        feedSection.innerHTML += `<p style="text-align:center;">No listings yet. Be the first to post!</p>`;
+      } else {
+        const hasPremiumAccess = currentUser?.premium_expiry > Date.now();
+        
+        posts.forEach((post, index) => {
+          const div = document.createElement("div");
+          div.className = post.isAnnouncement ? "post admin-announcement" : "post";
+          
+          if (post.isAnnouncement) {
+            div.innerHTML = `
+              <div class="lister-info">
+                <img src="logo.png.png" alt="Admin" class="lister-profile-pic">
+                <span class="lister-name">KY Admin <span class="admin-badge">ADMIN</span></span>
+              </div>
+              <div class="post-details">
+                <h3>${post.title}</h3>
+                <p>${post.text}</p>
+                ${post.media ? `<img src="${post.media}" style="max-width:100%; margin-top:10px;">` : ''}
+                <div class="post-meta">
+                  <span>Posted: ${new Date(post.createdAt).toLocaleString()}</span>
+                  ${currentUser?.isAdmin ? `<button class="delete-post-btn" onclick="deletePost('announcements', ${index})">Delete</button>` : ''}
+                </div>
+              </div>
+            `;
+            feedSection.appendChild(div);
+            return;
+          }
+          
+          let swiperHTML = `
+            <div class="swiper-container">
+              <div class="swiper-wrapper">
+          `;
+          
+          post.images.forEach(image => {
+            if (image.includes("data:video")) {
+              swiperHTML += `
+                <div class="swiper-slide">
+                  <video controls style="width:100%; height:100%; object-fit:cover;">
+                    <source src="${image}" type="video/mp4">
+                  </video>
+                </div>
+              `;
+            } else {
+              swiperHTML += `
+                <div class="swiper-slide">
+                  <img src="${image}" alt="House" onerror="this.src='house.jpeg'">
+                </div>
+              `;
+            }
+          });
+          
+          swiperHTML += `
+              </div>
+              <div class="swiper-pagination"></div>
+              <div class="swiper-button-next"></div>
+              <div class="swiper-button-prev"></div>
+            </div>
+          `;
+          
+          let verifiedBadge = "";
+          if (post.lister.verified && post.lister.isLandlord) {
+            verifiedBadge = '<span class="verified-badge" title="Verified Landlord"></span>';
+          }
+          
+          const premiumContent = hasPremiumAccess ? `
+            <p><strong>Description:</strong> ${post.description}</p>
+            <p><strong>Phone:</strong> ${post.phone}</p>
+            ${post.map ? `<p><strong>Location:</strong> <a href="${post.map}" target="_blank">View on Map</a></p>` : ''}
+            <p class="subscription-status">Premium access active</p>
+          ` : `
+            <p class="subscription-status">Premium access required to view contact details</p>
+            <button class="premium-btn" onclick="showModal('paymentModal')">Pay Ksh 100 to View Contacts</button>
+          `;
+          
+          div.innerHTML = `
+            ${swiperHTML}
+            <div class="lister-info">
+              <img src="${post.lister.photo}" alt="${post.lister.name}" class="lister-profile-pic">
+              <span class="lister-name">Listed by: ${post.lister.name}${verifiedBadge}</span>
+            </div>
+            <div class="post-details">
+              <h3>${post.title}</h3>
+              <p><strong>Rent:</strong> ${post.price}</p>
+              <p><strong>Location:</strong> ${post.location}</p>
+              <div class="premium-content">
+                ${premiumContent}
+              </div>
+              <div class="post-meta">
+                <span>Posted: ${new Date(post.createdAt).toLocaleString()} | Views: ${post.views || 0}</span>
+                ${currentUser?.isAdmin ? `<button class="delete-post-btn" onclick="deletePost('${currentTown}', ${index})">Delete</button>` : ''}
+              </div>
+            </div>
+            <div class="interaction-buttons">
+              <button class="like-btn" onclick="likePost('${currentTown}', ${index})">Like (${post.likes || 0})</button>
+              <button class="comment-btn" onclick="toggleComments('${currentTown}', ${index})">Comment</button>
+            </div>
+            <div id="comments-${currentTown}-${index}" class="comments-section">
+              <div id="comments-list-${currentTown}-${index}">
+                ${(post.comments || []).map(comment => `
+                  <div class="comment">
+                    <div class="comment-author">${comment.author}:</div>
+                    <div class="comment-text">${comment.text}</div>
+                  </div>
+                `).join('')}
+              </div>
+              <input type="text" id="comment-input-${currentTown}-${index}" class="comment-input" placeholder="Add a comment...">
+              <button onclick="addComment('${currentTown}', ${index})" style="margin-top: 5px;">Post Comment</button>
+            </div>
+          `;
+          
+          feedSection.appendChild(div);
+          
+          // Track view count
+          if (!post.views) {
+            post.views = 0;
+          }
+          post.views++;
+          localStorage.setItem(currentTown, JSON.stringify(posts));
+          
+          new Swiper(div.querySelector('.swiper-container'), {
+            loop: true,
+            pagination: {
+              el: div.querySelector('.swiper-pagination'),
+              clickable: true,
+            },
+            navigation: {
+              nextEl: div.querySelector('.swiper-button-next'),
+              prevEl: div.querySelector('.swiper-button-prev'),
+            },
+          });
+        });
+      }
+    }
+
+    function deletePost(location, index) {
+      if (!currentUser?.isAdmin) return;
+      
+      if (confirm("Are you sure you want to delete this post?")) {
+        let posts = JSON.parse(localStorage.getItem(location)) || [];
+        posts.splice(index, 1);
+        localStorage.setItem(location, JSON.stringify(posts));
+        renderFeed();
+      }
+    }
+
+    function searchAllLocations(query) {
+      if (!query) {
+        if (currentPage === "home") {
+          document.querySelectorAll('.county-box').forEach(box => box.style.display = 'block');
+        } else if (currentPage === "towns") {
+          document.querySelectorAll('.town-box').forEach(box => box.style.display = 'block');
+        }
+        return;
+      }
+      
+      const normalizedQuery = query.toLowerCase();
+      
+      if (currentPage === "home") {
+        document.querySelectorAll('.county-box').forEach(box => {
+          const countyName = box.textContent.toLowerCase();
+          box.style.display = countyName.includes(normalizedQuery) ? 'block' : 'none';
+        });
+      } else if (currentPage === "towns") {
+        document.querySelectorAll('.town-box').forEach(box => {
+          const townName = box.textContent.toLowerCase();
+          box.style.display = townName.includes(normalizedQuery) ? 'block' : 'none';
+        });
+      }
+    }
+
+    function showNewLocationModal() {
+      const countySelect = document.getElementById('newCounty');
+      countySelect.innerHTML = '<option value="">Select County</option>';
+      
+      Object.keys(countyTowns).sort().forEach(county => {
+        const option = document.createElement('option');
+        option.value = county;
+        option.textContent = county;
+        countySelect.appendChild(option);
+      });
+      
+      showModal('newLocationModal');
+    }
+
+    function addNewLocation() {
+      const townName = document.getElementById('newTownName').value.trim();
+      const county = document.getElementById('newCounty').value;
+      
+      if (!townName || !county) {
+        alert('Please enter both town name and select county');
+        return;
+      }
+      
+      if (!countyTowns[county].includes(townName)) {
+        countyTowns[county].push(townName);
+        localStorage.setItem('countyTowns', JSON.stringify(countyTowns));
+        
+        // Update the UI if we're currently viewing this county
+        if (currentPage === "towns" && document.querySelector('.county-box:not([style*="none"])').textContent === county) {
+          const div = document.createElement('div');
+          div.className = 'town-box';
+          div.textContent = townName;
+          div.onclick = () => showFeed(townName, county);
+          document.getElementById('townSection').appendChild(div);
+        }
+        
+        alert(`Successfully added ${townName} to ${county}`);
+        closeModal('newLocationModal');
+      } else {
+        alert('This town already exists in the selected county');
+      }
+    }
+
+    function handleLogoClick() {
+      if (currentUser?.isAdmin) {
+        showAdminDashboard();
+      } else if (confirm("Enter admin mode?")) {
+        showModal('adminLoginModal');
+      }
+    }
+
+    function verifyAdmin() {
+      const email = document.getElementById('adminEmail').value;
+      const password = document.getElementById('adminPassword').value;
+      const secret = document.getElementById('adminSecret').value;
+      
+      if (email === 'kejayangu@gmail.com' && password === 'JoGe@2025' && secret === 'God') {
+        currentUser = {
+          isAdmin: true,
+          name: 'KY Admin',
+          email: 'kejayangu@gmail.com',
+          photo: 'logo.png.png',
+          adminBadge: true
+        };
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        alert('Admin access granted');
+        closeModal('adminLoginModal');
+        updateUserProfileDisplay();
+        showAdminControls();
+      } else {
+        alert('Invalid admin credentials');
+      }
+    }
+
+    function showAdminControls() {
+      if (currentUser?.isAdmin) {
+        updateUserProfileDisplay();
+        showAdminDashboard();
+      }
+    }
+
+    function showAdminDashboard() {
+      hideAllSections();
+      adminDashboard.style.display = 'block';
+      loadAdminData();
+    }
+
+    function loadAdminData() {
+      // Load users data
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const usersTableBody = document.getElementById('usersTableBody');
+      usersTableBody.innerHTML = '';
+      
+      users.forEach(user => {
+        const row = document.createElement('tr');
+        
+        const onlineStatus = onlineUsers.includes(user.email) ? 
+          '<span style="color:green;">● Online</span>' : 
+          '<span style="color:gray;">○ Offline</span>';
+        
+        const verifiedStatus = user.verified ? 
+          '<span style="color:green;">✓ Verified</span>' : 
+          '<span style="color:orange;">Pending</span>';
+        
+        const premiumBadgeStatus = user.premiumBadge ? 
+          '<span style="color:gold;">★ Premium</span>' : 
+          '<span style="color:#ccc;">None</span>';
+        
+        row.innerHTML = `
+          <td>${user.name}</td>
+          <td>${user.email}</td>
+          <td>${user.phone}</td>
+          <td>${user.isLandlord ? 'Landlord' : 'Tenant'}</td>
+          <td>
+            ${onlineStatus}<br>
+            ${verifiedStatus}<br>
+            ${premiumBadgeStatus}
+          </td>
+          <td>
+            ${!user.premiumBadge ? `<button class="btn-approve" onclick="givePremiumBadge('${user.email}')">Give Premium</button>` : ''}
+            <button class="btn-remove" onclick="deleteUserAccount('${user.email}')">Delete</button>
+          </td>
+        `;
+        usersTableBody.appendChild(row);
+      });
+      
+      // Load verification requests
+      const verificationsList = document.getElementById('verificationsList');
+      verificationsList.innerHTML = '';
+      
+      users.filter(u => u.isLandlord && !u.verified && u.verification).forEach(user => {
+        const item = document.createElement('div');
+        item.className = 'verification-item';
+        item.innerHTML = `
+          <div>
+            <h4>${user.name} (${user.email})</h4>
+            <p>Phone: ${user.phone}</p>
+            <div class="verification-actions">
+              <button class="btn-approve" onclick="verifyLandlord('${user.email}', true)">Approve</button>
+              <button class="btn-remove" onclick="verifyLandlord('${user.email}', false)">Reject</button>
+            </div>
+          </div>
+          <div class="verification-photos">
+            <img src="${user.verification.idPhoto}" class="verification-photo">
+            <img src="${user.verification.idSelfie}" class="verification-photo">
+          </div>
+        `;
+        verificationsList.appendChild(item);
+      });
+      
+      if (verificationsList.children.length === 0) {
+        verificationsList.innerHTML = '<p>No pending verification requests</p>';
+      }
+      
+      // Load badge applications
+      const badgeApplicationsList = document.getElementById('badgeApplicationsList');
+      badgeApplicationsList.innerHTML = '';
+      
+      const badgeApps = JSON.parse(localStorage.getItem('badgeApplications')) || [];
+      badgeApps.forEach((app, index) => {
+        if (!app.processed) {
+          const user = users.find(u => u.email === app.userEmail);
+          const item = document.createElement('div');
+          item.className = 'verification-item';
+          item.innerHTML = `
+            <div>
+              <h4>${user?.name || app.userEmail}</h4>
+              <p>Applied on: ${new Date(app.date).toLocaleDateString()}</p>
+              <div class="verification-actions">
+                <button class="btn-approve" onclick="approveBadgeApplication(${index}, true)">Approve</button>
+                <button class="btn-remove" onclick="approveBadgeApplication(${index}, false)">Reject</button>
+              </div>
+            </div>
+            <div class="verification-photos">
+              <img src="${app.receipt}" class="verification-photo">
+            </div>
+          `;
+          badgeApplicationsList.appendChild(item);
+        }
+      });
+      
+      if (badgeApplicationsList.children.length === 0) {
+        badgeApplicationsList.innerHTML = '<p>No pending badge applications</p>';
+      }
+      
+      // Load analytics data
+      document.getElementById('totalUsers').textContent = users.length;
+      document.getElementById('activeListers').textContent = users.filter(u => u.isLandlord).length;
+      
+      // Calculate weekly revenue (simulated)
+      const weeklyRevenue = users.reduce((sum, user) => {
+        if (user.premium_expiry && user.premium_expiry > Date.now()) {
+          return sum + 100; // Ksh 100 per premium user
+        }
+        if (user.premiumBadge) {
+          return sum + 1000; // Ksh 1000 per premium badge
+        }
+        return sum;
+      }, 0);
+      document.getElementById('weeklyRevenue').textContent = `KES ${weeklyRevenue}`;
+      
+      // Load online users
+      updateOnlineUsersList();
+      
+      // Render charts
+      renderCharts();
+    }
+
+    function verifyLandlord(email, approve) {
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const userIndex = users.findIndex(u => u.email === email);
+      
+      if (userIndex !== -1) {
+        users[userIndex].verified = approve;
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        if (currentUser && currentUser.email === email) {
+          currentUser.verified = approve;
+          localStorage.setItem('currentUser', JSON.stringify(currentUser));
+          updateUserProfileDisplay();
+        }
+        
+        alert(`User ${approve ? 'approved' : 'rejected'} successfully`);
+        loadAdminData();
+      }
+    }
+
+    function givePremiumBadge(email) {
+      if (confirm(`Give premium badge to ${email}?`)) {
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const userIndex = users.findIndex(u => u.email === email);
+        
+        if (userIndex !== -1) {
+          users[userIndex].premiumBadge = true;
+          localStorage.setItem('users', JSON.stringify(users));
+          
+          if (currentUser && currentUser.email === email) {
+            currentUser.premiumBadge = true;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            updateUserProfileDisplay();
+          }
+          
+          alert('Premium badge granted successfully');
+          loadAdminData();
+        }
+      }
+    }
+
+    function approveBadgeApplication(index, approve) {
+      const badgeApps = JSON.parse(localStorage.getItem('badgeApplications')) || [];
+      if (index >= badgeApps.length) return;
+      
+      badgeApps[index].processed = true;
+      badgeApps[index].approved = approve;
+      localStorage.setItem('badgeApplications', JSON.stringify(badgeApps));
+      
+      if (approve) {
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const userIndex = users.findIndex(u => u.email === badgeApps[index].userEmail);
+        
+        if (userIndex !== -1) {
+          users[userIndex].premiumBadge = true;
+          localStorage.setItem('users', JSON.stringify(users));
+          
+          if (currentUser && currentUser.email === badgeApps[index].userEmail) {
+            currentUser.premiumBadge = true;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            updateUserProfileDisplay();
+          }
+        }
+      }
+      
+      alert(`Application ${approve ? 'approved' : 'rejected'} successfully`);
+      loadAdminData();
+    }
+
+    function deleteUserAccount(email) {
+      if (confirm(`Permanently delete ${email} and all their data? This cannot be undone!`)) {
+        let users = JSON.parse(localStorage.getItem('users'));
+        users = users.filter(u => u.email !== email);
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        // If the deleted user is the current user, log them out
+        if (currentUser && currentUser.email === email) {
+          logout();
+        }
+        
+        loadAdminData();
+      }
+    }
+
+    function updateOnlineUsersList() {
+      const onlineUsersList = document.getElementById('onlineUsersList');
+      onlineUsersList.innerHTML = '';
+      
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const online = users.filter(user => onlineUsers.includes(user.email));
+      
+      if (online.length === 0) {
+        onlineUsersList.innerHTML = '<p>No users currently online</p>';
+        return;
+      }
+      
+      online.forEach(user => {
+        const userDiv = document.createElement('div');
+        userDiv.className = 'online-user';
+        
+        let badges = [];
+        if (user.isAdmin) badges.push('<span class="admin-badge">ADMIN</span>');
+        if (user.premiumBadge) badges.push('<span class="verified-badge"></span>');
+        if (user.verified) badges.push('<span style="color:green;">✓</span>');
+        
+        userDiv.innerHTML = `
+          <img src="${user.photo || 'profile.jpg'}" class="online-user-photo">
+          <div>
+            <strong>${user.name}</strong> (${user.isLandlord ? 'Landlord' : 'Tenant'}) ${badges.join(' ')}<br>
+            <small>${user.email}</small>
+          </div>
+        `;
+        onlineUsersList.appendChild(userDiv);
+      });
+    }
+
+    function renderCharts() {
+      // User growth chart (simulated data)
+      const userGrowthCtx = document.getElementById('userGrowthChart').getContext('2d');
+      const userGrowthChart = new Chart(userGrowthCtx, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+          datasets: [{
+            label: 'New Users',
+            data: [120, 190, 170, 220, 250, 280, 310],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+      
+      // Revenue chart (simulated data)
+      const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+      const revenueChart = new Chart(revenueCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+          datasets: [{
+            label: 'Revenue (KES)',
+            data: [12000, 19000, 17000, 22000, 25000, 28000, 31000],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    function switchAdminTab(tabId) {
+      // Update tab styling
+      document.querySelectorAll('.admin-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelector(`.admin-tab[onclick="switchAdminTab('${tabId}')"]`).classList.add('active');
+      
+      // Update content visibility
+      document.querySelectorAll('.admin-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      document.getElementById(`${tabId}Tab`).classList.add('active');
+      
+      // Refresh data if needed
+      if (tabId === 'online') {
+        updateOnlineUsersList();
+      } else if (tabId === 'verifications') {
+        loadAdminData();
+      } else if (tabId === 'badgeApps') {
+        loadAdminData();
+      }
+    }
+
+    function postAnnouncement() {
+      const title = document.getElementById('announcementTitle').value.trim();
+      const text = document.getElementById('announcementText').value.trim();
+      const mediaInput = document.getElementById('announcementMedia');
+      
+      if (!title || !text) {
+        alert('Please enter both title and message');
+        return;
+      }
+      
+      const announcement = {
+        title,
+        text,
+        createdAt: new Date().toISOString()
+      };
+      
+      if (mediaInput.files && mediaInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          announcement.media = e.target.result;
+          saveAnnouncement(announcement);
+        };
+        reader.readAsDataURL(mediaInput.files[0]);
+      } else {
+        saveAnnouncement(announcement);
+      }
+    }
+    
+    function saveAnnouncement(announcement) {
+      const announcements = JSON.parse(localStorage.getItem('announcements')) || [];
+      announcements.unshift(announcement);
+      localStorage.setItem('announcements', JSON.stringify(announcements));
+      
+      // Clear form
+      document.getElementById('announcementTitle').value = '';
+      document.getElementById('announcementText').value = '';
+      document.getElementById('announcementMedia').value = '';
+      document.getElementById('announcementPreview').innerHTML = '';
+      
+      alert('Announcement posted successfully! It will appear at the top of all feeds.');
+      
+      // If we're currently viewing a feed, refresh it
+      if (currentPage === 'feed') {
+        renderFeed();
+      }
+    }
+
+    function trackUserActivity() {
+      if (currentUser) {
+        // Record user activity
+        userActivity[currentUser.email] = Date.now();
+        localStorage.setItem('userActivity', JSON.stringify(userActivity));
+        
+        // Update online users list
+        updateOnlineStatus();
+      }
+    }
+
+    function updateOnlineStatus() {
+      const now = Date.now();
+      const activityThreshold = 5 * 60 * 1000; // 5 minutes
+      
+      // Get all user activity
+      userActivity = JSON.parse(localStorage.getItem('userActivity')) || {};
+      
+      // Determine who's online (active in last 5 minutes)
+      onlineUsers = Object.keys(userActivity).filter(email => {
+        return now - userActivity[email] < activityThreshold;
+      });
+      
+      // Update admin dashboard if visible
+      if (adminDashboard.style.display === 'block') {
+        updateOnlineUsersList();
+      }
+    }
+
+    function searchTowns(query) {
+      if (!query) {
+        document.querySelectorAll('.town-box').forEach(box => box.style.display = 'block');
+        return;
+      }
+      
+      const normalizedQuery = query.toLowerCase();
+      document.querySelectorAll('.town-box').forEach(box => {
+        const townName = box.textContent.toLowerCase();
+        box.style.display = townName.includes(normalizedQuery) ? 'block' : 'none';
+      });
+    }
+
+    function showNotification(location) {
+      const notificationLocation = document.getElementById("notificationLocation");
+      notificationLocation.textContent = location;
+      notification.style.display = 'block';
+      
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 5000);
+    }
+
+    function saveToMultipleLocations(town, county, post) {
+      // Save to the selected county first
+      let posts = JSON.parse(localStorage.getItem(`${town}, ${county}`)) || [];
+      posts.unshift(post);
+      localStorage.setItem(`${town}, ${county}`, JSON.stringify(posts));
+      
+      // Check if this town is shared with other counties
+      if (sharedTowns[town]) {
+        sharedTowns[town].forEach(sharedCounty => {
+          if (sharedCounty !== county) {
+            let sharedPosts = JSON.parse(localStorage.getItem(`${town}, ${sharedCounty}`)) || [];
+            sharedPosts.unshift(post);
+            localStorage.setItem(`${town}, ${sharedCounty}`, JSON.stringify(sharedPosts));
+          }
+        });
+      }
+    }
+
+    function previewImages(event) {
+      imagePreviews.innerHTML = "";
+      uploadedImages = [];
+      uploadedVideos = [];
+      const files = event.target.files;
+      
+      if (files.length > 10) {
+        alert("You can upload a maximum of 10 files (photos and 1 video)");
+        event.target.value = "";
+        return;
+      }
+      
+      let videoCount = 0;
+      
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        
+        if (file.type.startsWith('video/')) {
+          videoCount++;
+          if (videoCount > 1) {
+            alert("You can upload only 1 video");
+            event.target.value = "";
+            return;
+          }
+        }
+      }
+      
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+          if (file.type.startsWith('video/')) {
+            uploadedVideos.push(e.target.result);
+          } else {
+            uploadedImages.push(e.target.result);
+          }
+          
+          const previewDiv = document.createElement("div");
+          previewDiv.style.width = "100px";
+          previewDiv.style.height = "100px";
+          previewDiv.style.overflow = "hidden";
+          previewDiv.style.borderRadius = "4px";
+          previewDiv.style.position = "relative";
+          
+          if (file.type.startsWith('video/')) {
+            const video = document.createElement("video");
+            video.src = e.target.result;
+            video.controls = true;
+            video.style.width = "100%";
+            video.style.height = "100%";
+            video.style.objectFit = "cover";
+            previewDiv.appendChild(video);
+          } else {
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            img.style.width = "100%";
+            img.style.height = "100%";
+            img.style.objectFit = "cover";
+            previewDiv.appendChild(img);
+          }
+          
+          imagePreviews.appendChild(previewDiv);
+        };
+        
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function previewProfilePhoto(event) {
+      const input = event.target;
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          signupPhotoPreview.src = e.target.result;
+          signupPhotoPreview.style.display = 'block';
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function previewIdPhoto(event, previewId) {
+      const input = event.target;
+      const preview = document.getElementById(previewId);
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function previewReceipt(event) {
+      const input = event.target;
+      const preview = document.getElementById('receiptPreview');
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function updateTownDropdown() {
+      const county = countySelect.value;
+      townDropdown.innerHTML = '<option value="">Select Town</option>';
+      
+      if (county && countyTowns[county]) {
+        townDropdown.style.display = "block";
+        locationInput.style.display = "none";
+        
+        countyTowns[county].forEach(town => {
+          const option = document.createElement("option");
+          option.value = town;
+          option.textContent = town;
+          townDropdown.appendChild(option);
+        });
+        
+        const newTownOption = document.createElement("option");
+        newTownOption.value = "other";
+        newTownOption.textContent = "Other (specify)";
+        townDropdown.appendChild(newTownOption);
+        
+        townDropdown.onchange = function() {
+          if (this.value === "other") {
+            locationInput.style.display = "block";
+            locationInput.value = "";
+          } else {
+            locationInput.style.display = "none";
+          }
+        };
+      } else {
+        townDropdown.style.display = "none";
+        locationInput.style.display = "block";
+      }
+    }
+
+    function initializeSampleData() {
+      if (!localStorage.getItem('users')) {
+        const sampleUsers = [
+          {
+            id: 1,
+            name: "Sample Lister",
+            email: "sample@example.com",
+            phone: "0712345678",
+            password: "password123",
+            photo: "profile.jpg",
+            idFront: "",
+            idBack: "",
+            selfie: "",
+            verified: false,
+            isLandlord: true,
+            subscription: {
+              freePeriodEnd: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString(),
+              listings: {}
+            }
+          }
+        ];
+        localStorage.setItem('users', JSON.stringify(sampleUsers));
+      }
+    }
+
+    function populateCountyDropdown() {
+      countySelect.innerHTML = '<option value="">Select County</option>';
+      Object.keys(countyTowns).sort().forEach(county => {
+        const option = document.createElement("option");
+        option.value = county;
+        option.textContent = county;
+        countySelect.appendChild(option);
+      });
+    }
+
+    function populateCounties() {
+      countyContainer.innerHTML = "";
+      Object.keys(countyTowns).sort().forEach(county => {
+        const div = document.createElement("div");
+        div.className = "county-box";
+        div.textContent = county;
+        div.onclick = () => showTowns(county);
+        countyContainer.appendChild(div);
+      });
+    }
+
+    function showTowns(county) {
+      currentPage = "towns";
+      hideAllSections();
+      townContainer.style.display = "grid";
+      
+      townContainer.innerHTML = "";
+      allTowns = [];
+      
+      countyTowns[county].forEach(town => {
+        allTowns.push(town);
+        const div = document.createElement("div");
+        div.className = "town-box";
+        div.textContent = town;
+        div.onclick = () => showFeed(town, county);
+        townContainer.appendChild(div);
+      });
+    }
+
+    function showFeed(town, county) {
+      currentPage = "feed";
+      currentTown = `${town}, ${county}`;
+      hideAllSections();
+      feedSection.style.display = "block";
+      renderFeed();
+    }
+
+    function showUploadForm() {
+      if (!currentUser) {
+        alert("Please sign up or log in to list a property");
+        showSignupForm();
+        return;
+      }
+      
+      if (!currentUser.isLandlord) {
+        alert("Only landlords can list properties. Please create a landlord account.");
+        return;
+      }
+      
+      const now = new Date();
+      const freePeriodEnd = new Date(currentUser.subscription.freePeriodEnd);
+      const listingEndDate = currentUser.subscription.listings[currentTown] ? 
+                           new Date(currentUser.subscription.listings[currentTown].endDate) : null;
+      
+      if (now > freePeriodEnd && (!listingEndDate || now > listingEndDate)) {
+        alert("Your free period has ended. Please pay Ksh 500 to list in this location for one month.");
+        initiateLandlordPayment(currentTown);
+        return;
+      }
+      
+      currentPage = "upload";
+      hideAllSections();
+      uploadSection.style.display = "block";
+      imagePreviews.innerHTML = "";
+      uploadedImages = [];
+      uploadedVideos = [];
+    }
+
+    function showSignupForm() {
+      currentPage = "signup";
+      hideAllSections();
+      signupForm.style.display = "block";
+      signupPhotoPreview.style.display = 'none';
+      signupPhotoPreview.src = '';
+      document.getElementById('id-photo-preview').style.display = 'none';
+      document.getElementById('id-selfie-preview').style.display = 'none';
+    }
+
+    function showLoginForm() {
+      currentPage = "login";
+      hideAllSections();
+      loginForm.style.display = "block";
+    }
+    
+    function showSettingsPage() {
+      currentPage = "settings";
+      hideAllSections();
+      settingsPage.style.display = "block";
+      document.getElementById('badgeStatus').innerHTML = currentUser?.premiumBadge ? 
+        '<p style="color:green;">You already have the Premium Badge!</p>' : 
+        '<button onclick="showBadgeApplication()" class="auth-btn" style="background: gold; color: #333; width: 100%;">Apply for Premium Badge</button>';
+    }
+
+    function hideAllSections() {
+      countyContainer.style.display = "none";
+      townContainer.style.display = "none";
+      feedSection.style.display = "none";
+      uploadSection.style.display = "none";
+      aboutPage.style.display = "none";
+      contactPage.style.display = "none";
+      settingsPage.style.display = "none";
+      signupForm.style.display = "none";
+      loginForm.style.display = "none";
+      adminDashboard.style.display = "none";
+    }
+
+    function createAccount() {
+      const name = document.getElementById("signup-name").value.trim();
+      const email = document.getElementById("signup-email").value.trim().toLowerCase();
+      const phone = document.getElementById("signup-phone").value.trim();
+      const password = document.getElementById("signup-password").value;
+      const photoInput = document.getElementById("signup-photo");
+      const isLandlord = document.getElementById("isLandlord").checked;
+      const idPhotoInput = document.getElementById("idPhoto");
+      const idSelfieInput = document.getElementById("idSelfie");
+      
+      if (!name) {
+        alert("Please enter your full name");
+        return;
+      }
+      
+      if (!email || !email.includes("@") || !email.includes(".")) {
+        alert("Please enter a valid email address");
+        return;
+      }
+      
+      if (!phone || phone.length !== 10 || !phone.startsWith("07")) {
+        alert("Please enter a valid Kenyan phone number starting with 07");
+        return;
+      }
+      
+      if (!password || password.length < 6) {
+        alert("Password must be at least 6 characters");
+        return;
+      }
+      
+      if (!photoInput.files || !photoInput.files[0]) {
+        alert("Please upload a profile photo");
+        return;
+      }
+
+      if (isLandlord && (!idPhotoInput.files || !idPhotoInput.files[0])) {
+        alert("Please upload your government ID photo for landlord verification");
+        return;
+      }
+
+      if (isLandlord && (!idSelfieInput.files || !idSelfieInput.files[0])) {
+        alert("Please upload your selfie with ID for landlord verification");
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      if (users.some(user => user.email === email)) {
+        alert("An account with this email already exists");
+        return;
+      }
+      
+      const reader1 = new FileReader();
+      const reader2 = isLandlord ? new FileReader() : null;
+      const reader3 = isLandlord ? new FileReader() : null;
+      
+      reader1.onload = function(e) {
+        const profilePhoto = e.target.result;
+        
+        const processLandlordVerification = () => {
+          const newUser = {
+            id: Date.now(),
+            name,
+            email,
+            phone,
+            password,
+            photo: profilePhoto,
+            verified: !isLandlord, // Auto-verify tenants
+            isLandlord,
+            subscription: {
+              freePeriodEnd: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString(),
+              listings: {}
+            }
+          };
+          
+          if (isLandlord) {
+            newUser.verification = {
+              idPhoto: reader2.result,
+              idSelfie: reader3.result,
+              verified: false // Admin will verify later
+            };
+          }
+          
+          users.push(newUser);
+          localStorage.setItem('users', JSON.stringify(users));
+          localStorage.setItem('currentUser', JSON.stringify(newUser));
+          currentUser = newUser;
+          
+          document.getElementById("signup-name").value = "";
+          document.getElementById("signup-email").value = "";
+          document.getElementById("signup-phone").value = "";
+          document.getElementById("signup-password").value = "";
+          photoInput.value = "";
+          document.getElementById('isLandlord').checked = false;
+          if (isLandlord) {
+            idPhotoInput.value = "";
+            idSelfieInput.value = "";
+          }
+          signupPhotoPreview.style.display = 'none';
+          signupPhotoPreview.src = '';
+          
+          alert("Account created successfully!");
+          updateUserProfileDisplay();
+          hideAllSections();
+          goHome();
+        };
+        
+        if (isLandlord) {
+          reader2.onload = function(e) {
+            const idPhoto = e.target.result;
+            
+            reader3.onload = function(e) {
+              const idSelfie = e.target.result;
+              processLandlordVerification();
+            };
+            reader3.readAsDataURL(idSelfieInput.files[0]);
+          };
+          reader2.readAsDataURL(idPhotoInput.files[0]);
+        } else {
+          processLandlordVerification();
+        }
+      };
+      
+      reader1.readAsDataURL(photoInput.files[0]);
+    }
+
+    function loginUser() {
+      const email = document.getElementById("login-email").value.trim().toLowerCase();
+      const password = document.getElementById("login-password").value;
+      
+      if (!email || !password) {
+        alert("Please enter both email and password");
+        return;
+      }
+      
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const user = users.find(u => u.email === email && u.password === password);
+      
+      if (user) {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        currentUser = user;
+        
+        document.getElementById("login-email").value = "";
+        document.getElementById("login-password").value = "";
+        
+        // Record user activity
+        trackUserActivity();
+        
+        updateUserProfileDisplay();
+        hideAllSections();
+        goHome();
+      } else {
+        alert("Invalid email or password");
+      }
+    }
+
+    function updateUserProfileDisplay() {
+      if (currentUser) {
+        let verifiedBadge = "";
+        if (currentUser.verified && currentUser.isLandlord) {
+          verifiedBadge = '<span class="verified-badge" title="Verified Landlord"></span>';
+        }
+        
+        let premiumBadge = "";
+        if (currentUser.premiumBadge) {
+          premiumBadge = '<span class="verified-badge" title="Premium User"></span>';
+        }
+        
+        let adminBadge = "";
+        if (currentUser.isAdmin) {
+          adminBadge = '<span class="admin-badge" title="Admin">ADMIN</span>';
+        }
+        
+        const isOnline = onlineUsers.includes(currentUser.email);
+        const onlineDot = isOnline ? '<div class="online-dot"></div>' : '';
+        
+        document.querySelector('.auth-buttons').innerHTML = `
+          <div class="user-profile">
+            <div style="position:relative;">
+              <img src="${currentUser.photo}" alt="${currentUser.name}" class="user-photo">
+              ${onlineDot}
+            </div>
+            <span class="user-name">${currentUser.name}${verifiedBadge}${premiumBadge}${adminBadge}</span>
+            <div class="settings-dropdown">
+              <button class="settings-btn"><i class="fas fa-cog"></i></button>
+              <div class="settings-menu">
+                <a href="#" onclick="showSettingsPage()">Settings</a>
+                <a href="#" onclick="logout()">Logout</a>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('currentUser');
+      currentUser = null;
+      document.querySelector('.auth-buttons').innerHTML = `
+        <a href="#" onclick="showLoginForm()" class="auth-btn login-btn">Log In</a>
+        <a href="#" onclick="showSignupForm()" class="auth-btn signup-btn">Sign Up</a>
+      `;
+      goHome();
+    }
+
+    function postListing() {
+      if (!currentUser) {
+        alert("Please log in to post a listing");
+        showLoginForm();
+        return;
+      }
+      
+      if (!currentUser.isLandlord) {
+        alert("Only landlords can list properties");
+        return;
+      }
+      
+      const now = new Date();
+      const freePeriodEnd = new Date(currentUser.subscription.freePeriodEnd);
+      const listingEndDate = currentUser.subscription.listings[currentTown] ? 
+                           new Date(currentUser.subscription.listings[currentTown].endDate) : null;
+      
+      if (now > freePeriodEnd && (!listingEndDate || now > listingEndDate)) {
+        alert("Your free period has ended. Please pay Ksh 500 to list in this location for one month.");
+        initiateLandlordPayment(currentTown);
+        return;
+      }
+      
+      const title = document.getElementById("title").value;
+      const price = document.getElementById("price").value;
+      const county = document.getElementById("county").value;
+      const town = townDropdown.value === "other" ? document.getElementById("location").value : townDropdown.value;
+      const description = document.getElementById("description").value;
+      const phone = document.getElementById("phone").value;
+      const map = document.getElementById("map").value;
+
+      if (!title || !price || !county || !town || !phone || !map) {
+        alert("Please fill in all required fields including phone number and Google Maps link");
+        return;
+      }
+
+      if (!phone.startsWith("07") || phone.length !== 10) {
+        alert("Please enter a valid Kenyan phone number starting with 07");
+        return;
+      }
+
+      const fullTownName = `${town}, ${county}`;
+      
+      if (!countyTowns[county].includes(town)) {
+        countyTowns[county].push(town);
+        localStorage.setItem('countyTowns', JSON.stringify(countyTowns));
+      }
+
+      const media = [...uploadedImages];
+      if (uploadedVideos.length > 0) {
+        media.push(uploadedVideos[0]);
+      }
+
+      const post = {
+        images: media.length > 0 ? media : ["house.jpeg"],
+        title,
+        price,
+        location: fullTownName,
+        description,
+        phone,
+        map,
+        lister: {
+          name: currentUser.name,
+          photo: currentUser.photo,
+          verified: currentUser.verified,
+          isLandlord: currentUser.isLandlord,
+          premiumBadge: currentUser.premiumBadge || false
+        },
+        likes: 0,
+        comments: [],
+        views: 0,
+        createdAt: new Date().toISOString()
+      };
+
+      saveToMultipleLocations(town, county, post);
+      
+      document.getElementById("title").value = "";
+      document.getElementById("price").value = "";
+      document.getElementById("county").value = "";
+      townDropdown.value = "";
+      document.getElementById("location").value = "";
+      document.getElementById("description").value = "";
+      document.getElementById("phone").value = "";
+      document.getElementById("map").value = "";
+      document.getElementById("imageInput").value = "";
+      imagePreviews.innerHTML = "";
+      uploadedImages = [];
+      uploadedVideos = [];
+      
+      // Show notification to other users
+      showNotification(fullTownName);
+      
+      showFeed(town, county);
+    }
+
+    function showPaymentModal(town, postIndex) {
+      if (!currentUser) {
+        alert("Please log in to make a payment");
+        showLoginForm();
+        return;
+      }
+      
+      currentPostToPayFor = { town, postIndex };
+      paymentModal.style.display = "flex";
+    }
+
+    function closePaymentModal() {
+      paymentModal.style.display = "none";
+      currentPostToPayFor = null;
+    }
+
+    function initiateMpesaPayment() {
+      if (!currentPostToPayFor) return;
+      
+      const { town, postIndex } = currentPostToPayFor;
+      let posts = JSON.parse(localStorage.getItem(town)) || [];
+      let post = posts[postIndex];
+      
+      if (!post) {
+        // Check if post is in a shared town
+        const [townName, county] = town.split(", ");
+        if (sharedTowns[townName]) {
+          for (const sharedCounty of sharedTowns[townName]) {
+            if (sharedCounty !== county) {
+              const sharedPosts = JSON.parse(localStorage.getItem(`${townName}, ${sharedCounty}`)) || [];
+              if (sharedPosts[postIndex]) {
+                post = sharedPosts[postIndex];
+                break;
+              }
+            }
+          }
+        }
+        
+        if (!post) {
+          alert("Post not found");
+          closePaymentModal();
+          return;
+        }
+      }
+      
+      alert(`Payment request sent to M-Pesa for Ksh 50. Please enter your PIN on your phone to complete payment.`);
+      
+      setTimeout(() => {
+        post.premiumViews = (post.premiumViews || 0) + 1;
+        localStorage.setItem(town, JSON.stringify(posts));
+        
+        if (currentUser) {
+          const users = JSON.parse(localStorage.getItem('users')) || [];
+          const userIndex = users.findIndex(u => u.id === currentUser.id);
+          if (userIndex !== -1) {
+            if (!users[userIndex].viewedPosts) {
+              users[userIndex].viewedPosts = {};
+            }
+            if (!users[userIndex].viewedPosts[town]) {
+              users[userIndex].viewedPosts[town] = [];
+            }
+            users[userIndex].viewedPosts[town].push(postIndex);
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('currentUser', JSON.stringify(users[userIndex]));
+            currentUser = users[userIndex];
+          }
+        }
+        
+        alert("Payment successful! You can now view the contact details.");
+        closePaymentModal();
+        renderFeed();
+      }, 3000);
+    }
+
+    function initiateLandlordPayment(location) {
+      alert(`Payment request sent to M-Pesa for Ksh 500 for listing in ${location}. Please enter your PIN on your phone to complete payment.`);
+      
+      setTimeout(() => {
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const userIndex = users.findIndex(u => u.id === currentUser.id);
+        if (userIndex !== -1) {
+          const endDate = new Date();
+          endDate.setMonth(endDate.getMonth() + 1);
+          
+          users[userIndex].subscription.listings[location] = {
+            endDate: endDate.toISOString(),
+            paid: true
+          };
+          
+          const alertDate = new Date(endDate);
+          alertDate.setDate(alertDate.getDate() - 3);
+          users[userIndex].subscription.listings[location].alertDate = alertDate.toISOString();
+          
+          localStorage.setItem('users', JSON.stringify(users));
+          localStorage.setItem('currentUser', JSON.stringify(users[userIndex]));
+          currentUser = users[userIndex];
+          
+          alert("Payment successful! You can now list properties in this location for one month.");
+          showUploadForm();
+        }
+      }, 3000);
+    }
+
+    function likePost(town, postIndex) {
+      if (!currentUser) {
+        alert("Please log in to like posts");
+        showLoginForm();
+        return;
+      }
+      
+      let posts = JSON.parse(localStorage.getItem(town)) || [];
+      let post = posts[postIndex];
+      
+      if (!post) {
+        // Check if post is in a shared town
+        const [townName, county] = town.split(", ");
+        if (sharedTowns[townName]) {
+          for (const sharedCounty of sharedTowns[townName]) {
+            if (sharedCounty !== county) {
+              const sharedPosts = JSON.parse(localStorage.getItem(`${townName}, ${sharedCounty}`)) || [];
+              if (sharedPosts[postIndex]) {
+                post = sharedPosts[postIndex];
+                post.likes = (post.likes || 0) + 1;
+                localStorage.setItem(`${townName}, ${sharedCounty}`, JSON.stringify(sharedPosts));
+                break;
+              }
+            }
+          }
+        }
+      } else {
+        post.likes = (post.likes || 0) + 1;
+        localStorage.setItem(town, JSON.stringify(posts));
+      }
+      
+      renderFeed();
+    }
+
+    function toggleComments(town, postIndex) {
+      const commentsSection = document.getElementById(`comments-${town}-${postIndex}`);
+      if (commentsSection) {
+        commentsSection.style.display = commentsSection.style.display === 'none' ? 'block' : 'none';
+      }
+    }
+
+    function addComment(town, postIndex) {
+      if (!currentUser) {
+        alert("Please log in to comment");
+        showLoginForm();
+        return;
+      }
+      
+      const commentInput = document.getElementById(`comment-input-${town}-${postIndex}`);
+      const commentText = commentInput.value.trim();
+      
+      if (!commentText) {
+        alert("Please enter a comment");
+        return;
+      }
+      
+      let posts = JSON.parse(localStorage.getItem(town)) || [];
+      let post = posts[postIndex];
+      
+      if (!post) {
+        // Check if post is in a shared town
+        const [townName, county] = town.split(", ");
+        if (sharedTowns[townName]) {
+          for (const sharedCounty of sharedTowns[townName]) {
+            if (sharedCounty !== county) {
+              const sharedPosts = JSON.parse(localStorage.getItem(`${townName}, ${sharedCounty}`)) || [];
+              if (sharedPosts[postIndex]) {
+                post = sharedPosts[postIndex];
+                if (!post.comments) {
+                  post.comments = [];
+                }
+                post.comments.push({
+                  author: currentUser.name,
+                  text: commentText
+                });
+                localStorage.setItem(`${townName}, ${sharedCounty}`, JSON.stringify(sharedPosts));
+                break;
+              }
+            }
+          }
+        }
+      } else {
+        if (!post.comments) {
+          post.comments = [];
+        }
+        post.comments.push({
+          author: currentUser.name,
+          text: commentText
+        });
+        localStorage.setItem(town, JSON.stringify(posts));
+      }
+      
+      commentInput.value = "";
+      renderFeed();
+    }
+
+    function showPage(page) {
+      currentPage = page;
+      hideAllSections();
+      
+      if (page === 'about') {
+        aboutPage.style.display = "block";
+      } else if (page === 'contact') {
+        contactPage.style.display = "block";
+      } else if (page === 'settings') {
+        showSettingsPage();
+      }
+    }
+
+    function goHome() {
+      currentPage = "home";
+      hideAllSections();
+      countyContainer.style.display = "grid";
+    }
+
+    function goBackFromUpload() {
+      if (currentTown) {
+        const [town, county] = currentTown.split(", ");
+        showFeed(town, county);
+      } else {
+        goHome();
+      }
+    }
+
+    function checkSubscriptionAlerts() {
+      if (!currentUser) return;
+      
+      const now = new Date();
+      const freePeriodEnd = new Date(currentUser.subscription.freePeriodEnd);
+      
+      const threeDaysBeforeFreeEnd = new Date(freePeriodEnd);
+      threeDaysBeforeFreeEnd.setDate(threeDaysBeforeFreeEnd.getDate() - 3);
+      
+      if (now >= threeDaysBeforeFreeEnd && now < freePeriodEnd) {
+        alert("Your free listing period ends in 3 days. After that, you'll need to pay Ksh 500 per location per month to continue listing properties.");
+      }
+      
+      Object.entries(currentUser.subscription.listings).forEach(([location, sub]) => {
+        if (sub.alertDate && new Date(sub.alertDate) <= now && now < new Date(sub.endDate)) {
+          alert(`Your paid listing for ${location} will expire in 3 days. Please renew to keep your listings active.`);
+        }
+      });
+    }
+
+    function checkAccessExpiry() {
+      if (currentUser?.premiumExpiry) {
+        const hoursLeft = (new Date(currentUser.premiumExpiry) - Date.now()) / (1000 * 60 * 60);
+        if (hoursLeft < 2) showRenewalModal(hoursLeft);
+      }
+    }
+
+    function showRenewalModal(hoursLeft) {
+      document.getElementById('expiryTime').textContent = `${Math.floor(hoursLeft)}h ${Math.floor((hoursLeft % 1) * 60)}m`;
+      document.getElementById('renewalModal').style.display = 'flex';
+    }
+
+    function renewAccess() {
+      initiatePayment('renewal');
+    }
+    
+    function changeLanguage(lang) {
+      currentLanguage = lang;
+      document.querySelectorAll('.language-option').forEach(opt => {
+        opt.classList.toggle('selected', opt.getAttribute('onclick').includes(lang));
+      });
+      
+      // In a real app, you would update all text content based on the selected language
+      alert(`Language changed to ${lang}. In a full implementation, all text would now be in the selected language.`);
+    }
+    
+    function changePassword() {
+      const newPassword = prompt("Enter your new password (min 6 characters):");
+      if (newPassword && newPassword.length >= 6) {
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const userIndex = users.findIndex(u => u.email === currentUser.email);
+        
+        if (userIndex !== -1) {
+          users[userIndex].password = newPassword;
+          localStorage.setItem('users', JSON.stringify(users));
+          
+          if (currentUser) {
+            currentUser.password = newPassword;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+          }
+          
+          alert("Password changed successfully!");
+        }
+      } else if (newPassword !== null) {
+        alert("Password must be at least 6 characters");
+      }
+    }
+    
+    function deleteAccount() {
+      if (confirm("Are you sure you want to delete your account? This cannot be undone!")) {
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const updatedUsers = users.filter(u => u.email !== currentUser.email);
+        localStorage.setItem('users', JSON.stringify(updatedUsers));
+        
+        logout();
+        alert("Your account has been deleted.");
+      }
+    }
+    
+    function showBadgeApplication() {
+      showModal('badgeApplicationModal');
+    }
+    
+    function submitBadgeApplication() {
+      const receiptInput = document.getElementById('receiptUpload');
+      
+      if (!receiptInput.files || !receiptInput.files[0]) {
+        alert("Please upload your payment receipt");
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const badgeApps = JSON.parse(localStorage.getItem('badgeApplications')) || [];
+        
+        badgeApps.push({
+          userEmail: currentUser.email,
+          receipt: e.target.result,
+          date: new Date().toISOString(),
+          processed: false
+        });
+        
+        localStorage.setItem('badgeApplications', JSON.stringify(badgeApps));
+        
+        alert("Application submitted! An admin will review it within 24 hours.");
+        closeModal('badgeApplicationModal');
+        
+        // Update settings page
+        document.getElementById('badgeStatus').innerHTML = '<p style="color:orange;">Application pending review</p>';
+      };
+      reader.readAsDataURL(receiptInput.files[0]);
+    }
+
+    window.onload = function() {
+      const savedCountyTowns = localStorage.getItem('countyTowns');
+      if (savedCountyTowns) {
+        Object.assign(countyTowns, JSON.parse(savedCountyTowns));
+      }
+      
+      if (currentUser) {
+        // Record user activity
+        trackUserActivity();
+        
+        updateUserProfileDisplay();
+        checkSubscriptionAlerts();
+        checkAccessExpiry();
+      }
+      
+      initializeSampleData();
+      populateCounties();
+      populateCountyDropdown();
+      
+      document.getElementById("signup-photo").addEventListener('change', previewProfilePhoto);
+      document.getElementById("idPhoto").addEventListener('change', (e) => previewIdPhoto(e, 'id-photo-preview'));
+      document.getElementById("idSelfie").addEventListener('change', (e) => previewIdPhoto(e, 'id-selfie-preview'));
+      document.querySelector('#signupForm button').onclick = createAccount;
+      document.getElementById('isLandlord').addEventListener('change', function() {
+        document.getElementById('landlordFields').style.display = this.checked ? 'block' : 'none';
+      });
+      
+      // Initialize premium status display
+      updatePremiumStatus();
+      
+      // Set up periodic checks
+      setInterval(checkSubscriptionAlerts, 60 * 60 * 1000);
+      setInterval(checkAccessExpiry, 30 * 60 * 1000); // Check every 30 minutes
+      setInterval(trackUserActivity, 60 * 1000); // Track activity every minute
+      setInterval(updateOnlineStatus, 5 * 60 * 1000); // Update online status every 5 minutes
+      
+      // Check for expiring premium every 5 minutes
+      setInterval(() => {
+        if (!currentUser?.premium_expiry) return;
+        const remainingHours = (currentUser.premium_expiry - Date.now()) / (1000 * 60 * 60);
+        if (remainingHours <= 1 && remainingHours > 0.98) {
+          showModal('paymentModal');
+        }
+      }, 300000);
+    };
+  </script>
+</body>
+</html>
